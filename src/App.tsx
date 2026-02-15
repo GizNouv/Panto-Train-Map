@@ -22,6 +22,10 @@ export default function App() {
     );
   }, [stations, filter]);
 
+  const handleStationClick = (station: Station) => {
+    setSelectedStation(station);
+  };
+
   // Handle Loading State
   if (isLoading) {
     return (
@@ -49,13 +53,15 @@ export default function App() {
         filterValue={filter}
         onFilterChange={setFilter}
         onStationClick={setSelectedStation}
+        selectedStation={selectedStation} // Pass selected station to sidebar
       />
 
       {/* Map Visualization */}
       <main className="flex-1 relative">
         <TrainMap
           stations={filteredStations}
-          selectedStation={selectedStation}
+          selectedStation={selectedStation} // Pass selected station to map
+          onStationClick={handleStationClick}
         />
       </main>
     </div>
