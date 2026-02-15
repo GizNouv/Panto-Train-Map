@@ -6,17 +6,19 @@ interface SidebarProps {
     filterValue: string
     onFilterChange: (value: string) => void
     onStationClick: (station: Station) => void
+    selectedStation: Station | null
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
     stations,
     filterValue,
     onFilterChange,
-    onStationClick
+    onStationClick,
+    selectedStation
 }) => {
     return (
         <aside className="w-80 h-full flex flex-col bg-slate-50 border-r border-slate-200 shadow-lg z-10">
-            {/* Header & Filter */}
+            {/* Header & Filter Input */}
             <div className="p-4 bg-white border-b border-slate-200">
                 <h1 className="text-xl font-bold text-slate-800 mb-4">Train Stations</h1>
                 <div className="relative">
@@ -29,8 +31,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     />
                     {filterValue && (
                         <button
-                            onClick={() => onFilterChange('')} // 
-                            className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
+                            onClick={() => onFilterChange('')}
+                            className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
                         >
                             ✕
                         </button>
@@ -44,10 +46,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     stations.map((station) => (
                         <div
                             key={station.id}
-                            onClick={() => onStationClick(station)} // 
-                            className="p-4 border-b border-slate-100 bg-white hover:bg-blue-50 cursor-pointer transition-colors group"
+                            onClick={() => onStationClick(station)}
+                            className={`p-4 border-b border-slate-100 bg-white hover:bg-blue-50 cursor-pointer transition-colors group ${selectedStation?.id === station.id ? 'bg-blue-100 border-l-4 border-l-blue-500' : ''
+                                }`}
                         >
-                            <h3 className="font-semibold text-slate-800 group-hover:text-blue-700">
+                            <h3 className={`font-semibold ${selectedStation?.id === station.id
+                                    ? 'text-blue-700'
+                                    : 'text-slate-800 group-hover:text-blue-700'
+                                }`}>
                                 {station.name}
                             </h3>
                             <p className="text-sm text-slate-500 flex items-center mt-1">
